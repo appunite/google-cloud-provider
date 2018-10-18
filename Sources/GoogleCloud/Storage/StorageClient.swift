@@ -42,8 +42,12 @@ public final class GoogleCloudStorageClient: StorageClient {
                                   providerconfig.serviceAccountCredentialPath ??
                                   "~/.config/gcloud/application_default_credentials.json"
 
+        let scopes = [StorageScope.fullControl]
+            .map { $0.rawValue }
+        
         // A token implementing OAuthRefreshable. Loaded from credentials defined above.
-        let refreshableToken = try OAuthCredentialLoader.getRefreshableToken(credentialFilePath: preferredCredentialPath, withClient: client)
+        let refreshableToken = try OAuthCredentialLoader
+            .getRefreshableToken(credentialFilePath: preferredCredentialPath, withClient: client, scope: scopes)
 
         // Set the projectId to use for this client. In order of priority:
         // - Environment Variable (PROJECT_ID)

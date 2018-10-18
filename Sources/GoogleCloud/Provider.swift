@@ -17,7 +17,6 @@ public struct GoogleCloudProviderConfig: Service {
     }
 }
 
-
 public final class GoogleCloudProvider: Provider {
     
     public static let repositoryName = "google-cloud-provider"
@@ -33,5 +32,6 @@ public final class GoogleCloudProvider: Provider {
     
     public func register(_ services: inout Services) throws {
         services.register(GoogleCloudStorageClient.self)
+        services.register(GoogleCalendarClient.self)
     }
 }

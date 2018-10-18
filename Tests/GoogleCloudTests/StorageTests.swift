@@ -83,6 +83,40 @@ final class StorageTests: XCTestCase {
         }).wait()
     }
 
+    func testWithServiceAccountCredentials2() throws {
+        let app = try Application()
+        let req = Request(using: app)
+        let client = try req.client()
+        
+        let providerConfig = GoogleCloudProviderConfig(project: GCSProject!, credentialFile: CredentialFile!)
+        let calendarClient = try GoogleCalendarClient(providerconfig: providerConfig, client: client)
+
+        
+        let bodyString = """
+        {
+            "summary": "test",
+            "start": { "dateTime": "2018-10-19T10:00:00+02:00" },
+            "end": { "dateTime": "2018-10-19T12:00:00+02:00" },
+            "attendees": [ { "email": "emil@appunite.com" } ]
+        }
+        """.data(using: .utf8)!
+        
+        
+        let body = bodyString
+            .convertToHTTPBody()
+
+        try calendarClient.events
+            .create(
+                calendar: "appunite.com_589m9vuk91vubll50jffcdujvs@group.calendar.google.com",
+                queryParameters: [:], body: body)
+            .map { calendar in
+                XCTAssertNotNil(calendar)
+            }.catch { err in
+                XCTFail(err.localizedDescription)
+            }.wait()
+    }
+
+    
     static var allTests = [
         ("testWithApplicationDefaultCredentials", testWithApplicationDefaultCredentials),
         ("testWithServiceAccountCredentials", testWithServiceAccountCredentials)

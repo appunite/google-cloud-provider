@@ -33,11 +33,14 @@ public class OAuthApplicationDefault: OAuthRefreshable {
 
         let body = try encoder.encode(bodyParts)
 
-        return client.post(GoogleOAuthTokenUrl, headers: headers, beforeSend: { $0.http.body = HTTPBody(data: body) }).flatMap(to: OAuthAccessToken.self) { (response) in
-            if response.http.status == .ok {
-                return try JSONDecoder().decode(OAuthAccessToken.self, from: response.http, maxSize: 65_536, on: response)
-            }
-            throw Abort(.internalServerError)
+        return client.post(GoogleOAuthTokenUrl, headers: headers, beforeSend: { $0.http.body = HTTPBody(data: body) })
+            .flatMap(to: OAuthAccessToken.self) { (response) in
+                if response.http.status == .ok {
+                    return try JSONDecoder()
+                        .decode(OAuthAccessToken.self, from: response.http, maxSize: 65_536, on: response)
+                }
+                
+                throw Abort(.internalServerError)
         }
     }
 }

@@ -8,11 +8,9 @@
 import Vapor
 
 public class OAuthCredentialLoader {
-    public static let defaultScope = [StorageScope.fullControl]
-    
-    public static func getRefreshableToken(credentialFilePath: String, withClient client: Client) throws -> OAuthRefreshable {
+    public static func getRefreshableToken(credentialFilePath: String, withClient client: Client, scope: [String]) throws -> OAuthRefreshable {
         if let credentials = try? GoogleServiceAccountCredentials(contentsOfFile: credentialFilePath) {
-            return OAuthServiceAccount(credentials: credentials, scopes: defaultScope, httpClient: client)
+            return OAuthServiceAccount(credentials: credentials, scopes: scope, httpClient: client)
         }
 
         if let credentials = try? GoogleApplicationDefaultCredentials(contentsOfFile: credentialFilePath) {

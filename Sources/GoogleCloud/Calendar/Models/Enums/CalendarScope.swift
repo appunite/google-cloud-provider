@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CalendarScope: String, CaseIterable {
+public enum CalendarScope: String {
     /// Allows access to read and change data to Calendars
     case readWriteCalendar = "https://www.googleapis.com/auth/calendar"
     /// Only allows access to read data to Calendars

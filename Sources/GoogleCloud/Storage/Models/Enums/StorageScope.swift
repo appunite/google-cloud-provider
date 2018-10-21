@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum StorageScope: String, CaseIterable {
+public enum StorageScope: String {
     /// Only allows access to read data, including listing buckets.
     case readOnly = "https://www.googleapis.com/auth/devstorage.read_only"
     /// Allows access to read and change data, but not metadata like IAM policies.

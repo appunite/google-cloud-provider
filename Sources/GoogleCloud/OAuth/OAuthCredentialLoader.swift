@@ -13,10 +13,14 @@ public class OAuthCredentialLoader {
             return OAuthServiceAccount(credentials: credentials, scopes: scope, httpClient: client)
         }
 
+        if let credentials = try? GoogleServiceAccountCredentials(environmentVariable: "GOOGLE_APPLICATION_CREDENTIAL_JSON") {
+            return OAuthServiceAccount(credentials: credentials, scopes: scope, httpClient: client)
+        }
+        
         if let credentials = try? GoogleApplicationDefaultCredentials(contentsOfFile: credentialFilePath) {
             return OAuthApplicationDefault(credentials: credentials, httpClient: client)
         }
 
-        throw CredentialLoadError.noValidFileError
+        throw CredentialLoadError.fileLoadError
     }
 }

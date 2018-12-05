@@ -26,6 +26,7 @@ public struct CalendarEvent: GoogleCloudModel {
     }
 
     public struct EventDate: GoogleCloudModel {
-        public var dateTime: String
+        public var date: String?
+        public var dateTime: String?
     }
 }
